@@ -28,7 +28,24 @@ io | nio
    Buffer是数据的容器，在nio中负责数据的存取，java为不同数据类型提供了相对应的缓冲区类型
    如：ByteBuffer、CharBuffer、ShortBuffer、IntBuffer、LongBuffer、FloatBuffer
    、DoubleBuffer 等。
+   
+- Buffer的基本使用
     
+    通过allocate()方法获取缓冲区，put()方法存入数据到缓冲区，get()方法获取缓冲区中的数据
+    ```java
+    String temp = "abcdefg";
+    //通过allocate()方法获取指定大小的缓冲区
+    ByteBuffer byteBuffer = ByteBuffer.allocate(1024);
+    //使用put()方法将数据添加到缓冲区
+    byteBuffer.put(temp.getBytes());
+    //缓冲区切换读取数据模式
+    byteBuffer.flip();
+    //获取缓冲区数据
+    byte[] dst = new byte[byteBuffer.limit()];
+    //使用get()方法获取数据到dst中
+    byteBuffer.get(dst);
+    System.out.println(new String(dst,0,dst.length));
+    ```
    
 
 
