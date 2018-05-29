@@ -9,4 +9,4 @@ io | nio
 ---|---
 面向流|面向缓冲区（buffer，channel）
 堵塞io|非堵塞io
-    -| 选择器
+-| 选择器
