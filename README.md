@@ -15,3 +15,11 @@ io | nio
 - 通道 Channels
 - 缓冲区 buffer
 - 选择器 Selectors
+
+
+
+
+
+
+
+![可查阅api文档](https://docs.oracle.com/javase/8/docs/api/java/nio/package-summary.html)
