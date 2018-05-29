@@ -10,3 +10,8 @@ io | nio
 面向流|面向缓冲区（buffer，channel）
 堵塞io|非堵塞io
 -| 选择器
+
+**3.java nio主要的核心组件**
+- 通道 Channels
+- 缓冲区 buffer
+- 选择器 Selectors
