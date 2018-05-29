@@ -1,7 +1,10 @@
 # nio-learn
 **1.  java nio 简介**
 
-Java NIO（New IO）是用于Java（来自Java 1.4）的替代IO API，意味着替代标准 Java IO和Java Networking API。Java NIO提供了与原来IO API不同的工作方式，但是作用和目的是一样的。NIO支持面向缓冲区的，基于通道的IO操作。NIO将以更加高效的方式进行文件的读写操作。
+Java NIO（New IO）是用于Java（来自Java 1.4）的替代IO API，意味着替代标准 Java IO和Java Networking API。
+Java NIO提供了与原来IO API不同的工作方式，但是作用和目的是一样的。
+NIO支持面向缓冲区的，基于通道的IO操作。
+NIO将以更加高效的方式进行文件的读写操作。
 
 **2. Java NIO与普通IO的主要区别**
 
@@ -18,9 +21,15 @@ io | nio
 - 选择器 Selectors
 
 
+**4.java nio缓冲区buffer**
 
+- 简介
 
-
+   Buffer是数据的容器，在nio中负责数据的存取，java为不同数据类型提供了相对应的缓冲区类型
+   如：ByteBuffer、CharBuffer、ShortBuffer、IntBuffer、LongBuffer、FloatBuffer
+   、DoubleBuffer 等。
+    
+   
 
 
 [可查阅官方api文档](https://docs.oracle.com/javase/8/docs/api/java/nio/package-summary.html)
