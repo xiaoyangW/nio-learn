@@ -12,8 +12,9 @@ io | nio
 -| 选择器
 
 **3.java nio主要的核心组件**
-- 通道 Channels
+
 - 缓冲区 buffer
+- 通道 Channels
 - 选择器 Selectors
 
 
