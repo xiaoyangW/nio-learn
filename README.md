@@ -1,7 +1,7 @@
 # nio-learn
 **1.  java nio 简介**
 
-Java NIO（New IO）是用于Java（来自Java 1.4）的替代IO API，意味着替代标准 Java IO和Java Networking API。
+>Java NIO（New IO）是用于Java（来自Java 1.4）的替代IO API，意味着替代标准 Java IO和Java Networking API。
 Java NIO提供了与原来IO API不同的工作方式，但是作用和目的是一样的。
 NIO支持面向缓冲区的，基于通道的IO操作。
 NIO将以更加高效的方式进行文件的读写操作。
@@ -25,13 +25,13 @@ io | nio
 
 - 简介
 
-   Buffer是数据的容器，在nio中负责数据的存取，java为不同数据类型提供了相对应的缓冲区类型
+  > Buffer是数据的容器，在nio中负责数据的存取，java为不同数据类型提供了相对应的缓冲区类型
    如：ByteBuffer、CharBuffer、ShortBuffer、IntBuffer、LongBuffer、FloatBuffer
    、DoubleBuffer 等。
    
 - Buffer的基本使用
     
-    通过allocate()方法获取缓冲区，put()方法存入数据到缓冲区，get()方法获取缓冲区中的数据
+    >通过allocate()方法获取缓冲区，put()方法存入数据到缓冲区，get()方法获取缓冲区中的数据
     ```java
     String temp = "abcdefg";
     //通过allocate()方法获取指定大小的缓冲区
@@ -46,7 +46,19 @@ io | nio
     byteBuffer.get(dst);
     System.out.println(new String(dst,0,dst.length));
     ```
-   
+- Buffer的核心属性
+    
+     * capacity:容量，表示缓冲区中最大存储数据的容量，一旦声明不能改变。
+     *  limit:界限，表示缓冲区中可以操作数据的大小。（limit后数据不能进行读写）
+     *  position:位置，表示缓冲区中正在操作数据的位置
+     *  mark: 标记，表示记录当前position的位置，可通过reset()恢复到mark的位置    
+    
+    mark <= position <= limit <= capacity
+- 直接缓冲区与非直接缓冲区
 
+    * 非直接缓冲区：通过allocate()分配缓冲区，缓冲区建立在jvm中。
+    * 直接缓冲区：通过allocateDirect()方法创建缓冲区，缓冲区建立在系统物理内存中。
 
+    
+    
 [可查阅官方api文档](https://docs.oracle.com/javase/8/docs/api/java/nio/package-summary.html)
