@@ -53,7 +53,9 @@ io | nio
      *  position:位置，表示缓冲区中正在操作数据的位置
      *  mark: 标记，表示记录当前position的位置，可通过reset()恢复到mark的位置    
     
-    mark <= position <= limit <= capacity
+    mark <= position <= limit <= capacity，
+    属性的各种状态的值可查看TestBuffer.java中的测试代码
+    
 - 直接缓冲区与非直接缓冲区
 
     * 非直接缓冲区：通过allocate()分配缓冲区，缓冲区建立在jvm中。
