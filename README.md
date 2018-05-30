@@ -59,6 +59,7 @@ io | nio
     * 非直接缓冲区：通过allocate()分配缓冲区，缓冲区建立在jvm中。
     * 直接缓冲区：通过allocateDirect()方法创建缓冲区，缓冲区建立在系统物理内存中。
 
+
     
     
 [可查阅官方api文档](https://docs.oracle.com/javase/8/docs/api/java/nio/package-summary.html)
