@@ -61,7 +61,23 @@ io | nio
     * 非直接缓冲区：通过allocate()分配缓冲区，缓冲区建立在jvm中。
     * 直接缓冲区：通过allocateDirect()方法创建缓冲区，缓冲区建立在系统物理内存中。
 
+**4.java nio通道channel**
 
-    
+- 简介
+   >通道（channel）：用户数据源节点和目标节点的连接。在Java nio中负责缓冲区中的数据传输，
+    channel本身不存储数据，因此需要配合缓冲区进行传输,实现java.nio.channels.Channel接口
+    ，主要实现类有FileChannel、SocketChannel、ServerSocketChannel、DatagramChannel等。
+
+- 获取通的方式
+    * (1)java针对支持通道的类提供getChannel()方法
+            本地IO有
+          FileInputStream/FileOutputStream
+          RandomAccessFile，
+          网络IO有
+          Socket
+          、ServerSocket
+          、DatagramSocket
+    *  (2)在Java1.7中的NIO.2针对各个通道提供了静态方法open()
+    *  (3)在Java1.7中的NIO.2的Files工具类的newByteChannel()
     
 [可查阅官方api文档](https://docs.oracle.com/javase/8/docs/api/java/nio/package-summary.html)
