@@ -64,7 +64,7 @@ io | nio
 **4.java nio通道channel**
 
 - 简介
-   >通道（channel）：用户数据源节点和目标节点的连接。在Java nio中负责缓冲区中的数据传输，
+   >通道（channel）：用户数 据源节点和目标节点的连接。在Java nio中负责缓冲区中的数据传输，
     channel本身不存储数据，因此需要配合缓冲区进行传输,实现java.nio.channels.Channel接口
     ，主要实现类有FileChannel、SocketChannel、ServerSocketChannel、DatagramChannel等。
 
