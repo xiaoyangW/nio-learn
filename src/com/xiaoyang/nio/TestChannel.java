@@ -1,12 +1,14 @@
 package com.xiaoyang.nio;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.nio.ByteBuffer;
+import java.nio.CharBuffer;
 import java.nio.MappedByteBuffer;
+import java.nio.channels.Channel;
 import java.nio.channels.FileChannel;
+import java.nio.charset.Charset;
+import java.nio.charset.CharsetDecoder;
+import java.nio.charset.CharsetEncoder;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
@@ -33,15 +35,80 @@ import java.nio.file.StandardOpenOption;
  *      DatagramSocket
  *  (2)在Java1.7中的NIO.2针对各个通道提供了静态方法open()
  *  (3)在Java1.7中的NIO.2的Files工具类的newByteChannel()
+ * 4.通道之间的数据传输
+ *  transferTo
+ *  transferFrom
+ *
+ * 5.分散（scatter）和聚集（gather）
+ *  分散读取（scatter reads）:将通道的数据分散到多个缓冲区中
+ *  聚集写入（gather writes）:将多个缓冲区的数据聚集到通道中
+ *
+ * 6.字符集：charset
+ *  编码：字符串-->字节数组
+ *  解码：字节数组-->字符串
  */
 public class TestChannel {
 
     public static void main(String[] args){
         try {
-            test3();
+            charsetTest();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private static void charsetTest() throws IOException {
+        Charset charset = Charset.forName("GBK");
+        //获取编码器
+        CharsetEncoder encoder = charset.newEncoder();
+        //获取解码器
+        CharsetDecoder decoder = charset.newDecoder();
+        CharBuffer charBuffer = CharBuffer.allocate(1024);
+        charBuffer.put("字符串-->字节数组");
+        charBuffer.flip();
+        //编码
+        ByteBuffer bb = encoder.encode(charBuffer);
+        for (int i = 0; i < 17; i++) {
+            System.out.println(bb.get());
+        }
+        //解码
+        bb.flip();
+        CharBuffer cb =decoder.decode(bb);
+        System.out.println(cb.toString());
+        System.out.println("--------------------");
+        Charset ut = Charset.forName("UTF-8");
+        bb.flip();
+        CharBuffer cb2 =ut.decode(bb);
+        System.out.println(cb2.toString());
+
+
+    }
+
+    /**
+     * 分散读取和聚集写入测试代码
+     * @throws IOException io
+     */
+    private static void test4() throws IOException {
+        RandomAccessFile raf = new RandomAccessFile("test","rw");
+        //1获取通道
+        FileChannel channel=raf.getChannel();
+        //2创建缓冲区
+        ByteBuffer b1= ByteBuffer.allocate(10);
+        ByteBuffer b2 = ByteBuffer.allocate(1024);
+        //分散读取
+        ByteBuffer[] bs = new ByteBuffer[]{b1,b2};
+        channel.read(bs);
+        for (ByteBuffer b:bs
+             ) {
+            b.flip();
+        }
+        System.out.println(new String(bs[0].array(),0,bs[0].limit()));
+        System.out.println("----------");
+        System.out.println(new String(bs[1].array(),0,bs[1].limit()));
+        //聚集写入
+        RandomAccessFile rafw = new RandomAccessFile("test2","rw");
+        FileChannel wc =  rafw.getChannel();
+        wc.write(bs);
     }
 
     /**
