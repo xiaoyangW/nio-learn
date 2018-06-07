@@ -80,4 +80,30 @@ io | nio
     *  (2)在Java1.7中的NIO.2针对各个通道提供了静态方法open()
     *  (3)在Java1.7中的NIO.2的Files工具类的newByteChannel()
     
+    简单示例使用通道和缓冲区复制文件：
+    
+    ```java
+        //使用非直接缓冲区
+         FileInputStream fis = new FileInputStream("chao.png");
+            FileOutputStream fos = new FileOutputStream("chao2.png");
+            //1.获取通道
+            FileChannel inChannel = fis.getChannel();
+            FileChannel outChannel = fos.getChannel();
+    
+            //2.分配指定大小缓冲区
+            ByteBuffer buffer = ByteBuffer.allocate(3072);
+    
+            //3.将通道的数据存入缓冲区
+            while (inChannel.read(buffer)!=-1){
+                //缓冲区切换为读模式
+                buffer.flip();
+                //4.将缓冲区数据写入通道
+                outChannel.write(buffer);
+                buffer.clear();
+            }
+            outChannel.close();
+            inChannel.close();
+            fis.close();
+            fos.close();
+    ```
 [可查阅官方api文档](https://docs.oracle.com/javase/8/docs/api/java/nio/package-summary.html)
