@@ -26,6 +26,7 @@ public class TestBlockingNIOClient2 {
                 socketChannel.write(buf);
                 buf.clear();
             }
+            //关闭连接写入 --> 而不关闭通道
             socketChannel.shutdownOutput();
             //接收服务端反馈
             int len = 0;
