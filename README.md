@@ -104,5 +104,69 @@ io | nio
      fis.close();
      fos.close();
     ```
+  
+ #####使用NIO网络编程
+- 堵塞式socket
+
+    >客户端
+    ```java
+     try {
+          //创建连接通道socketChannel
+          SocketChannel socketChannel = SocketChannel.open(new InetSocketAddress("127.0.0.1",8080));
+          //本地通道，缓冲区，读取本地文件到通道
+          FileChannel inChannel = FileChannel.open(Paths.get("test2"),StandardOpenOption.READ);
+          ByteBuffer buf = ByteBuffer.allocate(1024);
+          //通道数据保存到缓冲区
+          while (inChannel.read(buf)!=-1){
+              buf.flip();
+              //缓冲区数据传输至socket连接通道
+              socketChannel.write(buf);
+              buf.clear();
+            }  
+           //关闭连接写入 --> 而不关闭通道
+           socketChannel.shutdownOutput();
+           //接收服务端反馈
+           int len = 0;
+           while ((len =socketChannel.read(buf))!=-1){
+               buf.flip();
+               System.out.println(new String(buf.array(),0,len));
+               buf.clear();
+            }  
+          inChannel.close();  
+         socketChannel.close();
+        } catch (IOException e) {
+            e.printStackTrace();  
+     }
+    ```
+    >服务端
+    ```java
+    try {
+            //1获取通道
+            ServerSocketChannel serverSocketChannel = ServerSocketChannel.open();
+            //2绑定连接
+            serverSocketChannel.bind(new InetSocketAddress(8080));
+            //3获取客户端连接的通道
+            SocketChannel socketChannel = serverSocketChannel.accept();
+            //创建本地通道，缓冲区接收客户端数据
+            FileChannel outChannel = FileChannel.open(Paths.get("test3"),StandardOpenOption.CREATE,StandardOpenOption.WRITE);
+            ByteBuffer buf = ByteBuffer.allocate(1024);
+            //4.从socketChannel接收客户端数据
+            while (socketChannel.read(buf)!=-1){
+                buf.flip();
+                outChannel.write(buf);
+                buf.clear();
+            }
+            //返回数据给客户端
+            buf.put("服务端接收数据成功".getBytes());
+            buf.flip();
+            socketChannel.write(buf);
+            socketChannel.close();
+            serverSocketChannel.close();
+        } catch (IOException e) {
+    
+            e.printStackTrace();
+    }
+    ```
+ 
 [github博客地址](https://xiaoyangw.github.io/2018/05/30/Java-nio/)   
 [可查阅官方api文档](https://docs.oracle.com/javase/8/docs/api/java/nio/package-summary.html)
