@@ -1,5 +1,6 @@
-#### Java NIO示例
-** java nio 简介**
+## Java NIO
+
+**java nio 简介**
 
 >Java NIO（New IO）是用于Java（来自Java 1.4）的替代IO API，意味着替代标准 Java IO和Java Networking API。
 Java NIO提供了与原来IO API不同的工作方式，但是作用和目的是一样的。
