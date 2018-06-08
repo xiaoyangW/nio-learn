@@ -1,12 +1,12 @@
-# nio-learn
-**1.  java nio 简介**
+#### Java NIO示例
+** java nio 简介**
 
 >Java NIO（New IO）是用于Java（来自Java 1.4）的替代IO API，意味着替代标准 Java IO和Java Networking API。
 Java NIO提供了与原来IO API不同的工作方式，但是作用和目的是一样的。
 NIO支持面向缓冲区的，基于通道的IO操作。
 NIO将以更加高效的方式进行文件的读写操作。
 
-**2. Java NIO与普通IO的主要区别**
+**Java NIO与普通IO的主要区别**
 
 io | nio
 ---|---
@@ -14,14 +14,14 @@ io | nio
 堵塞io|非堵塞io
 -| 选择器
 
-**3.java nio主要的核心组件**
+**java nio主要的核心组件**
 
 - 缓冲区 buffer
 - 通道 Channels
 - 选择器 Selectors
 
 
-**4.java nio缓冲区buffer**
+**java nio缓冲区buffer**
 
 - 简介
 
@@ -61,7 +61,7 @@ io | nio
     * 非直接缓冲区：通过allocate()分配缓冲区，缓冲区建立在jvm中。
     * 直接缓冲区：通过allocateDirect()方法创建缓冲区，缓冲区建立在系统物理内存中。
 
-**4.java nio通道channel**
+**java nio通道channel**
 
 - 简介
    >通道（channel）：用户数 据源节点和目标节点的连接。在Java nio中负责缓冲区中的数据传输，
@@ -105,7 +105,7 @@ io | nio
      fos.close();
     ```
   
- #####使用NIO网络编程
+**使用NIO网络编程**
 - 堵塞式socket
 
     >客户端
