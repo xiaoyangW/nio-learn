@@ -8,6 +8,8 @@ import java.nio.channels.SocketChannel;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.time.LocalDateTime;
+import java.util.Date;
+import java.util.Scanner;
 
 /**
  * @author WXY
@@ -36,10 +38,15 @@ public class TestNotBlockingNIOClient {
             socketChannel.configureBlocking(false);
             ByteBuffer buf = ByteBuffer.allocate(1024);
             //3.发送数据给服务端
-            buf.put(LocalDateTime.now().toString().getBytes());
-            socketChannel.write(buf);
-            buf.clear();
-
+            //控制台输入数据
+            Scanner scanner = new Scanner(System.in);
+            while (scanner.hasNext()){
+                String msg = scanner.next();
+                buf.put(msg.getBytes());
+                buf.flip();
+                socketChannel.write(buf);
+                buf.clear();
+            }
             //4.关闭连接
             socketChannel.close();
         } catch (IOException e) {
