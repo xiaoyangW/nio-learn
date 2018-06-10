@@ -168,6 +168,75 @@ io | nio
             e.printStackTrace();
     }
     ```
+    
+- 非堵塞式socket
+    >客户端
+    ```java
+    //1.获取通道
+    SocketChannel socketChannel = SocketChannel.open(new InetSocketAddress("127.0.0.1",8080));
+    //2.设置为非堵塞模式
+    socketChannel.configureBlocking(false);
+    ByteBuffer buf = ByteBuffer.allocate(1024);
+    //3.发送数据给服务端
+    //控制台输入数据
+    Scanner scanner = new Scanner(System.in);
+    while (scanner.hasNext()){
+        String msg = scanner.next();
+        buf.put(msg.getBytes());
+        buf.flip();
+        socketChannel.write(buf);
+        buf.clear();
+    }
+    //4.关闭连接
+    socketChannel.close();
+    ```
+    >服务端
+    ```java
+    //1.获取通道
+    ServerSocketChannel serverSocketChannel = ServerSocketChannel.open();
+    //2.切换到非堵塞模式
+    serverSocketChannel.configureBlocking(false);
+    //3.绑定端口号
+    serverSocketChannel.bind(new InetSocketAddress(8080));
+    //4.获取选择器
+    Selector selector = Selector.open();
+    //5.将通道注册到选择器上，并且指定“监听接收事件”
+    serverSocketChannel.register(selector,SelectionKey.OP_ACCEPT);
+    //6轮询式的获取选择器上已经‘准备就绪’的事件
+    while (selector.select()>0){
+        //7 。获取当前选择器中所有注册的"选择健（已就绪的监听事件）"
+        Iterator<SelectionKey> iterator = selector.selectedKeys().iterator();
+        while (iterator.hasNext()){
+            //8.获取“准备就绪”的事件
+            SelectionKey selectionKey = iterator.next();
+             //9.判断具体事件，就绪
+            if (selectionKey.isAcceptable()){
+                //10.接收就绪，获取客户端连接
+                SocketChannel socketChannel = serverSocketChannel.accept();
+                //11,切换到非堵塞模式
+                socketChannel.configureBlocking(false);
+                //12.将客户端通道注册到选择器上
+                socketChannel.register(selector,SelectionKey.OP_READ);
+            }else if (selectionKey.isReadable()){
+                //获取当前选择器上“读就绪”状态的通道
+                SocketChannel socketChannel = (SocketChannel) selectionKey.channel();
+
+                ByteBuffer buffer = ByteBuffer.allocate(1024);
+                //读取客户端传过来的数据
+                int len = 0;
+                while ((len = socketChannel.read(buffer))>0){
+                  buffer.flip();
+                  System.out.println(new String(buffer.array(),0,len));
+                  buffer.clear();  
+              }
+            }
+            //取消选择键selectionKey
+            iterator.remove();
+        }
+    }
+    ```
+ 
+ 
  
 [github博客地址](https://xiaoyangw.github.io/2018/05/30/Java-nio/)   
 [可查阅官方api文档](https://docs.oracle.com/javase/8/docs/api/java/nio/package-summary.html)
