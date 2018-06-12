@@ -235,8 +235,45 @@ io | nio
         }
     }
     ```
+- UDP
+    >客户端
+   ```java
+        DatagramChannel datagramChannel = DatagramChannel.open();
+        
+        ByteBuffer buffer = ByteBuffer.allocate(1024);
+        Scanner scanner = new Scanner(System.in);
+        while (scanner.hasNext()){
+            String msg = scanner.next();
+            buffer.put(msg.getBytes());
+            buffer.flip();
+            datagramChannel.send(buffer,new InetSocketAddress("127.0.0.1",8080));
+            buffer.clear();
+        }
+        datagramChannel.close();
+    ```
  
- 
+     >服务端
+     ```java
+      DatagramChannel datagramChannel = DatagramChannel.open();
+      datagramChannel.configureBlocking(false);
+      datagramChannel.bind(new InetSocketAddress(8080));
+      Selector selector = Selector.open();
+      datagramChannel.register(selector,SelectionKey.OP_READ);
+      while (selector.select()>0){
+          Iterator<SelectionKey> iterator = selector.selectedKeys().iterator();
+          while (iterator.hasNext()){
+              SelectionKey selectionKey = iterator.next();
+      
+              if (selectionKey.isReadable()){
+      			ByteBuffer buf = ByteBuffer.allocate(1024);
+      			datagramChannel.receive(buf);
+      			System.out.println(new String(buf.array(),0,buf.position()));
+      			buf.clear();
+              }
+          }
+          iterator.remove();
+      }
+  ```
  
 [github博客地址](https://xiaoyangw.github.io/2018/05/30/Java-nio/)   
 [可查阅官方api文档](https://docs.oracle.com/javase/8/docs/api/java/nio/package-summary.html)
