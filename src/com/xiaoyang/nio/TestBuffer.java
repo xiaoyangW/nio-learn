@@ -14,7 +14,8 @@ import java.nio.ByteBuffer;
  *  LongBuffer
  *  FloatBuffer
  *  DoubleBuffer
- *  缓冲区的管理方式基本一致，通过allocate()方法获取缓冲区
+ *  缓冲区的管理方式基本一致，通过allocate()方法获取缓冲区（非直接缓冲区），allocateDirect方法获取直接缓冲区
+ *
  *
  * 2.缓冲区存取数据的两核心方法：
  *  put():存入数据到缓冲区
