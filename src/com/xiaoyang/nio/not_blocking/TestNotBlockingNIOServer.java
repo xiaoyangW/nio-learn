@@ -23,7 +23,7 @@ public class TestNotBlockingNIOServer {
             //4.获取选择器
             Selector selector = Selector.open();
             //5.将通道注册到选择器上，并且指定“监听接收事件”
-            serverSocketChannel.register(selector,SelectionKey.OP_ACCEPT);
+            SelectionKey key = serverSocketChannel.register(selector,SelectionKey.OP_ACCEPT);
             //6轮询式的获取选择器上已经‘准备就绪’的事件
             while (selector.select()>0){
                 //7 。获取当前选择器中所有注册的"选择健（已就绪的监听事件）"
