@@ -51,7 +51,7 @@ public class TestChannel {
 
     public static void main(String[] args){
         try {
-            charsetTest();
+            test4();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -106,7 +106,7 @@ public class TestChannel {
         System.out.println("----------");
         System.out.println(new String(bs[1].array(),0,bs[1].limit()));
         //聚集写入
-        RandomAccessFile rafw = new RandomAccessFile("test2","rw");
+        RandomAccessFile rafw = new RandomAccessFile("test23","rw");
         FileChannel wc =  rafw.getChannel();
         wc.write(bs);
     }
@@ -118,7 +118,6 @@ public class TestChannel {
     private static void test3() throws IOException {
         FileChannel inChannel = FileChannel.open(Paths.get("chao.png"),StandardOpenOption.READ);
         FileChannel outChannel = FileChannel.open(Paths.get("chao4.png"),StandardOpenOption.WRITE,StandardOpenOption.READ,StandardOpenOption.CREATE);
-
         //内存映射文件
         MappedByteBuffer inMappedBuf =  inChannel.map(FileChannel.MapMode.READ_ONLY,0,inChannel.size());
         MappedByteBuffer outMappedBuf =  outChannel.map(FileChannel.MapMode.READ_WRITE,0,inChannel.size());
