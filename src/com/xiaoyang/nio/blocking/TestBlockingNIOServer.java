@@ -11,16 +11,16 @@ import java.nio.file.StandardOpenOption;
 
 /**
  * @author WXY
- *  使用nio实现网络通信（堵塞式）
+ * 使用nio实现网络通信（堵塞式）
  */
 public class TestBlockingNIOServer {
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
 
         try {
             //1获取通道
             ServerSocketChannel serverSocketChannel = ServerSocketChannel.open();
-            FileChannel inChannel = FileChannel.open(Paths.get("test3"),StandardOpenOption.CREATE,StandardOpenOption.WRITE);
+            FileChannel inChannel = FileChannel.open(Paths.get("test3"), StandardOpenOption.CREATE, StandardOpenOption.WRITE);
             //2绑定连接
             serverSocketChannel.bind(new InetSocketAddress(8080));
             //3获取客户端连接的通道
@@ -28,7 +28,7 @@ public class TestBlockingNIOServer {
             //4
             ByteBuffer buf = ByteBuffer.allocate(1024);
 
-            while (socketChannel.read(buf)!=-1){
+            while (socketChannel.read(buf) != -1) {
                 buf.flip();
                 inChannel.write(buf);
                 buf.clear();

@@ -9,21 +9,21 @@ import java.util.Scanner;
 
 /**
  * @author WXY
- *  NIO中DatagramChannel是一个能收发UDP包的通道
+ * NIO中DatagramChannel是一个能收发UDP包的通道
  */
 public class TestNotBlockingNIOClient {
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         try {
             DatagramChannel datagramChannel = DatagramChannel.open();
 
             ByteBuffer buffer = ByteBuffer.allocate(1024);
             Scanner scanner = new Scanner(System.in);
-            while (scanner.hasNext()){
+            while (scanner.hasNext()) {
                 String msg = scanner.next();
                 buffer.put(msg.getBytes());
                 buffer.flip();
-                datagramChannel.send(buffer,new InetSocketAddress("127.0.0.1",8080));
+                datagramChannel.send(buffer, new InetSocketAddress("127.0.0.1", 8080));
                 buffer.clear();
             }
             datagramChannel.close();
